@@ -1,0 +1,69 @@
+version: '3'
+services:
+
+  user-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: tataurov
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_db
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  course-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: tataurov
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: course_db
+    volumes:
+      - course-db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  user-service:
+    build: ./user_service
+    volumes:
+        - ./logs/employee.log:/code/logs/course.log
+    ports:
+      - "8001:80"
+    environment:
+      POSTGRES_URL: postgresql://tataurov:password@user-db:5432/user_db
+      RABBITMQ_HOST: amqp://guest:guest@rabbitmq:5672/
+      IS_LOCAL: TRUE
+      FOR_TEST: FAlSE
+
+    depends_on:
+      - user-db
+      - rabbitmq
+
+
+  course-service:
+    build: ./course_service
+    ports:
+      - "8002:80"
+    environment:
+      POSTGRES_URL: postgresql://tataurov:password@course-db:5432/course_db
+      USER_URL: http://user-service:80
+      RABBITMQ_HOST: amqp://guest:guest@rabbitmq:5672/
+      IS_LOCAL: TRUE
+    depends_on:
+      - course-db
+      - user-service
+      - rabbitmq
+    volumes:
+      - ./user_service:/app/user_service
+
+  rabbitmq:
+   image: rabbitmq:3-management
+   ports:
+     - "5672:5672"
+     - "15672:15672"
+
+
+
+volumes:
+  user-db-data:
+  course-db-data:
