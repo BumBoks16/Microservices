@@ -15,7 +15,7 @@ jobs:
 
    - name: Build docker image
      run: |
-      docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+      docker build -t ${{ secrets.DOCKER_USERNAME }}/course_service ./course_service
 
    - name: Log in to DockerHub
      uses: docker/login-action@v3.0.0
@@ -25,4 +25,4 @@ jobs:
 
    - name: Push tag to DockerHub
      run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/course_service:latest
