@@ -26,4 +26,3 @@ jobs:
     - name: Push tag to DockerHub
       run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/course-service:latest
-
