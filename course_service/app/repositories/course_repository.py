@@ -31,6 +31,9 @@ class CourseRepo:
         """
         Создает новый курс и добавляет его в список курсов.
         """
+        course_id = course_data.get('id')
+        if course_id in [course.id for course in courses_data]:
+            raise KeyError(f"Course with id {course_id} already exists.")
         course = Course(**course_data)
         courses_data.append(course)
         return course
