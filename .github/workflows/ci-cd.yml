@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y python3-pip
-          pip install -r ./part_service/requirements.txt
+          pip install -r ./user_service/requirements.txt
           echo "IS_LOCAL = TRUE
           AMQP_URL=''
           POSTGRES_URL=''
@@ -24,7 +24,7 @@ jobs:
 
       - name: prepare unit test
         run: |
-          pip install -r ./repair_service/requirements.txt
+          pip install -r ./course_service/requirements.txt
 
       - name: run unit test
         run: |
