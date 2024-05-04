@@ -15,7 +15,7 @@ app = FastAPI()
 
 
 class UserService:
-    def __init__(self) -> None:
+    def __init__(self):
         if settings.is_local:
             self.user_repo = UserRepo()
         else:
