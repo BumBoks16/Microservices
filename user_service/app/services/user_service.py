@@ -17,8 +17,7 @@ user_repo = UserRepo()
 bd_user_repo = BdRepo()
 
 
-# noinspection PyTypeChecker
-class UserService():
+class UserService:
     def __init__(self) -> None:
         if settings.is_local:
             self.user_repo = user_repo

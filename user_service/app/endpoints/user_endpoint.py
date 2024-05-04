@@ -4,11 +4,15 @@ from typing import List
 from uuid import UUID
 from app.models.user import User
 from app.repositories.bd_user_repository import BdRepo
+from app.repositories.user_repository import UserRepo
 
 app = FastAPI()
 
 # Создаем экземпляр репозитория пользователей
-user_repo = BdRepo()
+if not settings.is_local:
+    user_repo = BdRepo()
+else:
+    user_repo = UserRepo
 
 # Создаем APIRouter для пользователей
 user_router = APIRouter(prefix="/users", tags=["Users"])
