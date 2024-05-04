@@ -56,6 +56,6 @@ jobs:
           revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/user-service:latest
           revision-service-account-id: ${{ secrets.YC_SA_ID }}
           revision-env: |
+            IS_LOCAL = TRUE
             AMQP_URL=""
             POSTGRES_URL=""
-            IS_LOCAL = TRUE
