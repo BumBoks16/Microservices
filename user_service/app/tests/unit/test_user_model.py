@@ -12,7 +12,7 @@ def test_create():
     user = User(
         id=user_data['id'],
         username=user_data['username'],
-        email=user_data['description']
+        email=user_data['email']
     )
     assert user.id == user_data['id']
     assert user.username == user_data['username']
