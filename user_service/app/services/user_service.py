@@ -2,8 +2,6 @@ from fastapi import FastAPI, HTTPException
 from typing import List
 from uuid import UUID
 from fastapi.exceptions import HTTPException
-
-
 from app.database import get_db
 from app.models.user import User
 from app.repositories.bd_user_repository import BdRepo
@@ -13,8 +11,10 @@ from app.settings import settings
 app = FastAPI()
 
 # Создаем экземпляр репозитория пользователей
-user_repo = UserRepo()
-bd_user_repo = BdRepo()
+if settings.is_local:
+    user_repo = UserRepo()
+else:
+    bd_user_repo = BdRepo()
 
 
 class UserService:
