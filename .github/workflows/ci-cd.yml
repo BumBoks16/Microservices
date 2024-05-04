@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build-and-push-to-dh:
+  build-and-push:
     name: Build and push to DockerHub
     runs-on: ubuntu-latest
     steps:
@@ -26,3 +26,19 @@ jobs:
     - name: Push tag to DockerHub
       run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/course-service:latest
+
+    - name: Build docker image
+      run: |
+        docker build -t cr.yandex/${{ secrets.YC_REGISTRY_ID }}/user-service:latest ./user_service
+
+    - name: Login to YC REGISTRY
+      uses: docker/login-action@v3.0.0
+      with:
+        registry: cr.yandex
+        username: json_key
+        password: ${{ secrets.YC_KEYS }}
+
+    - name: Push to YC REGISTRY
+      run: |
+        docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/user-service:latest
+

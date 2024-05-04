@@ -6,8 +6,8 @@ import pytest
 def test_empty_enrolled_users():
     course_data = {
         'id': uuid4(),
-        'title': 'Python Programming',
-        'description': 'Learn Python programming language from scratch.',
+        'title': 'Python',
+        'description': 'Learn Python.',
         'enrolled_users': []
     }
     course = Course(
@@ -23,8 +23,8 @@ def test_empty_enrolled_users():
 
 def test_id_required():
     course_data = {
-        'title': 'Python Programming',
-        'description': 'Learn Python programming language from scratch.',
+        'title': 'Python',
+        'description': 'Learn Python',
         'enrolled_users': []
     }
     with pytest.raises(ValidationError):
@@ -37,7 +37,7 @@ def test_id_required():
 def test_title_required():
     course_data = {
         'id': uuid4(),
-        'description': 'Learn Python programming language from scratch.',
+        'description': 'Learn Python.',
         'enrolled_users': []
     }
     with pytest.raises(ValidationError):
@@ -50,7 +50,7 @@ def test_title_required():
 def test_description_required():
     course_data = {
         'id': uuid4(),
-        'title': 'Python Programming',
+        'title': 'Python',
         'enrolled_users': []
     }
     with pytest.raises(ValidationError):
@@ -67,8 +67,8 @@ def test_non_empty_enrolled_users():
     ]
     course_data = {
         'id': uuid4(),  # Преобразуем UUID в объект типа UUID
-        'title': 'Python Programming',
-        'description': 'Learn Python programming language from scratch.',
+        'title': 'Python',
+        'description': 'Learn Python',
         'enrolled_users': enrolled_user_data
     }
     course = Course(
