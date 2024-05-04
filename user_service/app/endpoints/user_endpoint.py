@@ -12,7 +12,7 @@ app = FastAPI()
 if not settings.is_local:
     user_repo = BdRepo()
 else:
-    user_repo = UserRepo
+    user_repo = UserRepo()
 
 # Создаем APIRouter для пользователей
 user_router = APIRouter(prefix="/users", tags=["Users"])
