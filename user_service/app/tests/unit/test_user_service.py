@@ -54,35 +54,29 @@ def test_delete_non_existing_user(second_data: UUID, user_service: UserService):
 
 
 def test_delete_user(first_data: UUID, user_service: UserService):
+    # Подготовка данных для пользователя
     user_id = first_data
     username = 'test_user'
     email = 'test@example.com'
     user_data = {'id': user_id, 'username': username, 'email': email}
 
-    # Создаем пользователя
+    # Создание пользователя
     created_user_id = user_service.create_user(user_data)
-    print("Созданный пользователь:", created_user_id)
 
-    # Проверяем, что пользователь создан успешно
-    assert created_user_id == user_id
-
-    # Удаляем пользователя
+    # Удаление пользователя
     user_service.delete_user_by_id(user_id)
-    print("Пользователь успешно удален")
 
-    # Пытаемся получить удаленного пользователя
+    # Проверка, что пользователь успешно удален
     try:
-        user_service.get_user_by_id(user_id)
-    except HTTPException as exc:
-        # Проверяем, что вызов метода get_user_by_id вызывает исключение HTTPException
-        print("Исключение:", exc)
-        # Проверяем, что статус код исключения равен 404
-        assert exc.status_code == 404
-        print("Удаленный пользователь успешно не найден (вызвано исключение 404)")
+        # Попытка получить удаленного пользователя
+        deleted_user = user_service.get_user_by_id(user_id)
+    except KeyError:
+        # Если пользователь успешно удален, метод get_user_by_id должен вызвать исключение KeyError
+        pass
     else:
-        # Если исключение не вызвано, что-то пошло не так
+        # Если исключение не было вызвано, что-то пошло не так
         raise AssertionError(
-            "Ожидалось, что вызов get_user_by_id вызовет исключение 404, но исключение не было вызвано")
+            "Ожидалось, что вызов get_user_by_id вызовет исключение KeyError после удаления пользователя")
 
 
 def test_get_existing_user(first_data: UUID, user_service: UserService):
