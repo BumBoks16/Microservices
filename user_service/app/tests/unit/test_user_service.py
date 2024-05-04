@@ -44,9 +44,8 @@ def test_create_user(first_data: UUID, user_service: UserService):
     username = 'test_user'
     email = 'test@example.com'
     user_data = {'id': user_id, 'username': username, 'email': email}
-    user = user_service.create_user(user_data)
-    assert user == user_data
-
+    created_user_id = user_service.create_user(user_data)
+    assert created_user_id == user_id
 
 def test_delete_non_existing_user(second_data: UUID, user_service: UserService):
     with pytest.raises(HTTPException) as exc_info:
@@ -61,11 +60,11 @@ def test_delete_user(first_data: UUID, user_service: UserService):
     user_data = {'id': user_id, 'username': username, 'email': email}
 
     # Создаем пользователя
-    user = user_service.create_user(user_data)
-    print("Созданный пользователь:", user)
+    created_user_id = user_service.create_user(user_data)
+    print("Созданный пользователь:", created_user_id)
 
     # Проверяем, что пользователь создан успешно
-    assert user == user_data
+    assert created_user_id == user_id
 
     # Удаляем пользователя
     user_service.delete_user_by_id(user_id)
