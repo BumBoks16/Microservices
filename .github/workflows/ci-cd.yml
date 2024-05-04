@@ -17,7 +17,7 @@ jobs:
           sudo apt update
           sudo apt install -y python3-pip
           pip install -r ./user_service/requirements.txt
-          ECHO "IS_LOCAL = TRUE
+          echo "IS_LOCAL = TRUE
           AMQP_URL=''
           POSTGRES_URL=''" > .env
 
