@@ -3,7 +3,7 @@ import requests
 from uuid import uuid4
 from app.models.user import User
 
-test_url = "http://localhost:8080/api/users"
+test_url = "http://127.0.0.1:8080/api/users"
 
 
 # Фикстура для создания пользователя
