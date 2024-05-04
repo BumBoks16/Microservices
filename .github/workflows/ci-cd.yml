@@ -55,7 +55,8 @@ jobs:
           folder-id: ${{ secrets.YC_FOLDER_ID }}
           revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY_ID }}/user-service:latest
           revision-service-account-id: ${{ secrets.YC_SA_ID }}
+          revision-memory: 384Mb
           revision-env: |
-            AMQP_URL=""
             POSTGRES_URL=""
             IS_LOCAL = TRUE
+            AMQP_URL=""
