@@ -7,9 +7,63 @@ on:
     branches: ["main"]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: prepare unit test
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip
+          pip install -r ./part_service/requirements.txt
+          echo "IS_LOCAL = TRUE
+          AMQP_URL=''
+          POSTGRES_URL=''
+        
+
+      - name: prepare unit test
+        run: |
+          pip install -r ./repair_service/requirements.txt
+
+      - name: run unit test
+        run: |
+          pytest ./course_service/app/tests/unit
+
+      - name: run unit test
+        run: |
+          pytest ./user_service/app/tests/unit
+
+      - name: prepare e2e test
+        run: |
+          sudo docker build -t course-test ./course_service
+          sleep 10
+          docker run -e IS_LOCAL=TRUE -e AMQP_URL="" -e POSTGRES_URL="" -e KEYCLOAK_ID="" -e KEYCLOAK_SECRET="" -e KEYCLOAK_URL="" -e KEYCLOAK_REALM="" -d -p 81:8081 course-test
+
+
+      - name: prepare e2e test
+        run: |
+          sudo docker build -t user-test ./user_service
+          sleep 10
+          docker run -e TEST_BUILD=TRUE -e AMQP_URL="" -e PARTS_URL="" -e POSTGRES_URL="" -e KEYCLOAK_ID="" -e KEYCLOAK_SECRET="" -e KEYCLOAK_URL="" -e KEYCLOAK_REALM="" -d -p 80:8080 user-test
+          sleep 25
+
+      - name: show info
+        run: |
+          sudo docker ps -a
+
+      - name: run e2e test
+        run: |
+          pytest ./course_service/app/tests/endpoint
+
+      - name: run e2e test
+        run: |
+          pytest ./user_service/app/tests/endpoint
+
   build-and-push:
     name: Build and push to DockerHub
     runs-on: ubuntu-latest
+    needs: [ test ]
     steps:
     - uses: actions/checkout@v3
 
