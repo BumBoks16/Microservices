@@ -3,7 +3,7 @@ import requests
 from uuid import UUID, uuid4
 from app.models.course import Course
 
-test_url = "http://127.0.0.1:8081/api/courses/courses"
+test_url = "http://127.0.0.1:81/api/courses/courses"
 
 @pytest.fixture(scope='session')
 def first_data() -> tuple[dict, dict]:
