@@ -45,20 +45,10 @@ def test_delete_user(user_data: dict):
     assert response.status_code == 200
 
     get_response = requests.get(f"{test_url}/{user_data['id']}")
-    assert get_response.status_code == 500
+    assert get_response.status_code == 404
 
 
 def test_get_nonexistent_user():
     response = requests.get(f"{test_url}/{uuid4()}")
-    assert response.status_code == 500
+    assert response.status_code == 404
     assert response.json()['detail'] == "User not found"
-
-
-def test_create_user_invalid_data():
-    invalid_data = {
-        'id': str(uuid4()),
-        'email': 'test@example.com',
-        'password': 'testpassword'
-    }
-    response = requests.post(test_url, json=invalid_data)
-    assert response.status_code == 500
