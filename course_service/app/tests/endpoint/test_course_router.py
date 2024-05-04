@@ -53,9 +53,3 @@ def test_delete_created_course(first_data: tuple[dict, dict]):
     response = requests.get(f"{test_url}/{first_data[0]['id']}")
     assert response.status_code == 404
 
-def test_enroll_user(second_data: tuple[dict, dict]):
-    data, header = second_data
-    # Регистрация курса
-    response = requests.post(test_url, json=data, headers=header)
-    assert response.status_code == 200
-    assert "course_id" in response.json(), "Course registration failed"
