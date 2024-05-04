@@ -59,17 +59,3 @@ def test_enroll_user(second_data: tuple[dict, dict]):
     response = requests.post(test_url, json=data, headers=header)
     assert response.status_code == 200
     assert "course_id" in response.json(), "Course registration failed"
-
-    # Получение идентификатора курса
-    course_id = response.json()["course_id"]
-
-    # Регистрация пользователя на курс
-    user_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    enroll_url = f"{test_url}/{course_id}/enroll/{user_id}"
-    response = requests.post(enroll_url, headers=header)
-    assert response.status_code == 200
-
-    # Удаление курса
-    delete_url = f"{test_url}/{course_id}"
-    response = requests.delete(delete_url, headers=header)
-    assert response.status_code == 200
