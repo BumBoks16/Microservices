@@ -9,8 +9,9 @@ if not settings.is_local:
 
 
 def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    if not settings.is_local:
+        db = SessionLocal()
+        try:
+            yield db
+        finally:
+            db.close()
