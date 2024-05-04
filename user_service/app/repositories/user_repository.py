@@ -11,7 +11,7 @@ users_data = [
     User(id=UUID('1dc2a3f3-d0bc-4c78-8a2d-04d1e2434f4c'), username='user5', email='user5@example.com')
 ]
 
-class UserRepo:
+class UserRepo():
     def __init__(self, clear: bool = False) -> None:
         if clear:
             users_data.clear()
