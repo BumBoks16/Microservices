@@ -3,9 +3,9 @@ from sqlalchemy.orm import sessionmaker
 
 from app.settings import settings
 
-
-engine = create_engine(settings.postgres_url, echo=True)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+if not settings.is_local:
+    engine = create_engine(settings.postgres_url, echo=True)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db():

@@ -7,18 +7,23 @@ from fastapi.exceptions import HTTPException
 from app.database import get_db
 from app.models.user import User
 from app.repositories.bd_user_repository import BdRepo
+from app.repositories.user_repository import UserRepo
 from app.settings import settings
 
 app = FastAPI()
 
 # Создаем экземпляр репозитория пользователей
-user_repo = BdRepo()
+user_repo = UserRepo()
+bd_user_repo = BdRepo()
 
 
 # noinspection PyTypeChecker
 class UserService():
     def __init__(self) -> None:
-        self.user_repo = user_repo
+        if settings.is_local:
+            self.user_repo = user_repo
+        else:
+            self.user_repo = bd_user_repo
 
     def get_users(self) -> List[User]:
         """
