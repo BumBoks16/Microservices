@@ -45,9 +45,7 @@ def test_create_user(first_data: UUID, user_service: UserService):
     email = 'test@example.com'
     user_data = {'id': user_id, 'username': username, 'email': email}
     user = user_service.create_user(user_data)
-    assert user.id == user_id
-    assert user.username == username
-    assert user.email == email
+    assert user == user_data
 
 
 def test_delete_non_existing_user(second_data: UUID, user_service: UserService):
@@ -61,11 +59,31 @@ def test_delete_user(first_data: UUID, user_service: UserService):
     username = 'test_user'
     email = 'test@example.com'
     user_data = {'id': user_id, 'username': username, 'email': email}
-    user_service.create_user(user_data)
+
+    # Создаем пользователя
+    user = user_service.create_user(user_data)
+    print("Созданный пользователь:", user)
+
+    # Проверяем, что пользователь создан успешно
+    assert user == user_data
+
+    # Удаляем пользователя
     user_service.delete_user_by_id(user_id)
-    with pytest.raises(HTTPException) as exc_info:
+    print("Пользователь успешно удален")
+
+    # Пытаемся получить удаленного пользователя
+    try:
         user_service.get_user_by_id(user_id)
-    assert exc_info.value.status_code == 404
+    except HTTPException as exc:
+        # Проверяем, что вызов метода get_user_by_id вызывает исключение HTTPException
+        print("Исключение:", exc)
+        # Проверяем, что статус код исключения равен 404
+        assert exc.status_code == 404
+        print("Удаленный пользователь успешно не найден (вызвано исключение 404)")
+    else:
+        # Если исключение не вызвано, что-то пошло не так
+        raise AssertionError(
+            "Ожидалось, что вызов get_user_by_id вызовет исключение 404, но исключение не было вызвано")
 
 
 def test_get_existing_user(first_data: UUID, user_service: UserService):
