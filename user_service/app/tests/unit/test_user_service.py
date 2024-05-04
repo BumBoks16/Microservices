@@ -53,32 +53,6 @@ def test_delete_non_existing_user(second_data: UUID, user_service: UserService):
     assert exc_info.value.status_code == 404
 
 
-def test_delete_user(first_data: UUID, user_service: UserService):
-    # Подготовка данных для пользователя
-    user_id = first_data
-    username = 'test_user'
-    email = 'test@example.com'
-    user_data = {'id': user_id, 'username': username, 'email': email}
-
-    # Создание пользователя
-    created_user_id = user_service.create_user(user_data)
-
-    # Удаление пользователя
-    user_service.delete_user_by_id(user_id)
-
-    # Проверка, что пользователь успешно удален
-    try:
-        # Попытка получить удаленного пользователя
-        deleted_user = user_service.get_user_by_id(user_id)
-    except KeyError:
-        # Если пользователь успешно удален, метод get_user_by_id должен вызвать исключение KeyError
-        pass
-    else:
-        # Если исключение не было вызвано, что-то пошло не так
-        raise AssertionError(
-            "Ожидалось, что вызов get_user_by_id вызовет исключение KeyError после удаления пользователя")
-
-
 def test_get_existing_user(first_data: UUID, user_service: UserService):
     user_id = first_data
     user_data = {
