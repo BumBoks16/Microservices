@@ -11,18 +11,15 @@ from app.settings import settings
 app = FastAPI()
 
 # Создаем экземпляр репозитория пользователей
-if settings.is_local:
-    user_repo = UserRepo()
-else:
-    bd_user_repo = BdRepo()
+
 
 
 class UserService:
     def __init__(self) -> None:
         if settings.is_local:
-            self.user_repo = user_repo
+            self.user_repo = UserRepo()
         else:
-            self.user_repo = bd_user_repo
+            self.user_repo = BdRepo()
 
     def get_users(self) -> List[User]:
         """
