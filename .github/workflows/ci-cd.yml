@@ -44,7 +44,7 @@ jobs:
         run: |
           sudo docker build -t user-test ./user_service
           sleep 10
-          docker run -e TEST_BUILD=TRUE -e AMQP_URL="" -e PARTS_URL="" -e POSTGRES_URL="" -e KEYCLOAK_ID="" -e KEYCLOAK_SECRET="" -e KEYCLOAK_URL="" -e KEYCLOAK_REALM="" -d -p 80:8080 user-test
+          docker run -e IS_LOCAL=TRUE -e AMQP_URL="" -e PARTS_URL="" -e POSTGRES_URL="" -e KEYCLOAK_ID="" -e KEYCLOAK_SECRET="" -e KEYCLOAK_URL="" -e KEYCLOAK_REALM="" -d -p 80:8080 user-test
           sleep 25
 
       - name: show info
